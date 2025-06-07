@@ -1,7 +1,7 @@
 'use client'
 import React from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+// import { usePathname } from 'next/navigation';
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -9,20 +9,19 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
   //   navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
 import { cn } from '@/lib/utils';
 import { navigationLinks } from '@/constants/navigationLinks';
 
 const NavTabs = () => {
-  const pathname = usePathname();
+  // const pathname = usePathname();
 
 
 
-  const isActiveLink = (href: string) => {
-    return pathname === href;
-  };
+  // const isActiveLink = (href: string) => {
+  //   return pathname === href;
+  // };
 
   //   const isActiveDropdown = (items: { href: string; label: string }[]) => {
   //     return items.some(item => pathname === item.href);
