@@ -10,6 +10,7 @@ import {
 import { categoryColors, categoryIcons, guidelines } from '@/data/guidelines.data';
 import PageHeader from '@/components/layout/PageHeader';
 import SearchAndFilter from './_components/SearchAndFilter';
+import { Button } from '@/components/ui/button';
 
 const Guidelines = () => {
   const [search, setSearch] = useState('');
@@ -68,7 +69,7 @@ const Guidelines = () => {
             const colorClass = categoryColors[item.category] || 'bg-gray-50 text-gray-700 border-gray-200 dark:bg-gray-800/50 dark:text-gray-300 dark:border-gray-600';
 
             return (
-              <Card key={index} className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-slate-200 dark:border-gray-700">
+              <Card key={index} className="group hover:shadow-md transition-all duration-300 hover:-translate-y-1 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-slate-200 dark:border-gray-700">
                 <CardHeader className="pb-3">
                   <div className="flex items-center justify-between mb-3">
                     <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium border ${colorClass}`}>
@@ -85,13 +86,14 @@ const Guidelines = () => {
                   </p>
                 </CardHeader>
                 <CardContent className="pt-0">
-                  <button
+                  <Button
                     onClick={() => openPdf(item.url)}
-                    className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-medium py-3 px-4 rounded-lg transition-all duration-200 hover:shadow-lg hover:scale-105"
+                    variant={'default'}
+                    className="w-full"
                   >
                     <Download className="w-4 h-4" />
                     Open Document
-                  </button>
+                  </Button>
                 </CardContent>
               </Card>
             );

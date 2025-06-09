@@ -10,7 +10,7 @@ const ServicesSection = () => {
         <div className="container px-4">
           <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
             {/* Medical Examinations Card */}
-            <Card className="card-hover myfade-in fade-in-5">
+            <Card className="hover:shadow-md myfade-in fade-in-5">
               <CardHeader className="text-center pb-4">
                 <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                   <User className="h-8 w-8 text-primary" />
@@ -33,7 +33,7 @@ const ServicesSection = () => {
             </Card>
 
             {/* Medical Centers Card */}
-            <Card className="card-hover myfade-in fade-in-5">
+            <Card className="hover:shadow-md myfade-in fade-in-5">
               <CardHeader className="text-center pb-4">
                 <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                   <MapPin className="h-8 w-8 text-primary" />

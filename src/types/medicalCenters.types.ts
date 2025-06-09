@@ -1,3 +1,4 @@
+// '@/types/medicalCenters.types.ts'
 export interface MedicalCenter {
   id: number;
   name: string;

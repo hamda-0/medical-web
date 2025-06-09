@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-// import Pagination from './_components/Pagination';
 import MedicalCentersList from './_components/MedicalCentersList';
 import SearchMedicalCenters from './_components/SearchMedicalCenters';
 import { MedicalCenter } from '@/types/medicalCenters.types';
@@ -14,19 +13,21 @@ const MedicalCenters: React.FC = () => {
   const [filteredCenters, setFilteredCenters] = useState<MedicalCenter[]>(medicalCenters);
   const centersPerPage = 5;
 
+  // Debug: Log filteredCenters and currentCenters
+  console.log('Filtered Centers:', filteredCenters);
+  console.log('Current Centers:', filteredCenters.slice(
+    (currentPage - 1) * centersPerPage,
+    currentPage * centersPerPage
+  ));
+
   const indexOfLastCenter = currentPage * centersPerPage;
   const indexOfFirstCenter = indexOfLastCenter - centersPerPage;
   const currentCenters = filteredCenters.slice(indexOfFirstCenter, indexOfLastCenter);
-  // const totalPages = Math.ceil(filteredCenters.length / centersPerPage);
-
-  // const handlePageChange = (page: number) => {
-  //   setCurrentPage(page);
-  // };
 
   const handleSearch = (country: string, city: string, name: string) => {
     const filtered = medicalCenters.filter((center) => {
-      const matchesCountry = country ? center.country === country : true;
-      const matchesCity = city ? center.city === city : true;
+      const matchesCountry = country ? center.country.toLowerCase() === country.toLowerCase() : true;
+      const matchesCity = city ? center.city.toLowerCase() === city.toLowerCase() : true;
       const matchesName = name ? center.name.toLowerCase().includes(name.toLowerCase()) : true;
       return matchesCountry && matchesCity && matchesName;
     });
@@ -36,7 +37,7 @@ const MedicalCenters: React.FC = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <PageHeader title='Medical Centers' description='List of medical centers' Icon={Hospital} />
+      <PageHeader title="Medical Centers" description="List of medical centers" Icon={Hospital} />
       <SearchMedicalCenters onSearch={handleSearch} />
       <MedicalCentersList medicalCenters={currentCenters} />
     </div>
