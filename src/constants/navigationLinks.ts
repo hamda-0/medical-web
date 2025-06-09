@@ -10,7 +10,8 @@ export const navigationLinks = [
           description: 'Schedule your medical examination appointment'
         },
         { 
-          href: '/appointment-slots', 
+          href: '/search-slip', 
+          // href: '/appointment-slots', 
           label: 'Appointment Slots',
           description: 'View available appointment time slots'
         },
@@ -31,7 +32,7 @@ export const navigationLinks = [
           description: 'Information about center accreditation process'
         },
         { 
-          href: '/medical-centers-list', 
+          href: '/medical-centers', 
           label: 'Medical Centers List',
           description: 'Browse all accredited medical centers'
         },

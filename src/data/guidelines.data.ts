@@ -86,10 +86,10 @@ export const guidelines = [
       description: 'Backup evaluation guide document'
     },
     {
-      title: 'Authorization letter of medical center representative on WAFID platform',
+      title: 'Authorization letter of medical center representative on Healthcare platform',
       category: 'Authorization',
-      url: '/pdfs/authorization-wafid.pdf',
-      description: 'WAFID platform authorization letter'
+      url: '/pdfs/authorization-Healthcare.pdf',
+      description: 'Healthcare platform authorization letter'
     },
     {
       title: 'Authorization letter for a medical center representative',
@@ -110,10 +110,10 @@ export const guidelines = [
       description: 'Unfitness case documentation'
     },
     {
-      title: 'WAFID Program Mechanism For Handling Complaints and Propositions',
+      title: 'Healthcare Program Mechanism For Handling Complaints and Propositions',
       category: 'Customer Service',
-      url: '/pdfs/wafid-mechanism.pdf',
-      description: 'WAFID complaint handling mechanism'
+      url: '/pdfs/Healthcare-mechanism.pdf',
+      description: 'Healthcare complaint handling mechanism'
     },
     {
       title: 'Mechanism for handling complaints and suggestions',
@@ -134,16 +134,16 @@ export const guidelines = [
       description: 'Inappropriate case calculation mechanism'
     },
     {
-      title: 'Financial Rules and Regulations for WAFID Program',
+      title: 'Financial Rules and Regulations for Healthcare Program',
       category: 'Finance',
-      url: '/pdfs/financial-rules-wafid.pdf',
-      description: 'WAFID program financial regulations'
+      url: '/pdfs/financial-rules-Healthcare.pdf',
+      description: 'Healthcare program financial regulations'
     },
     {
-      title: 'Financial rules and regulations for the Wafid Program',
+      title: 'Financial rules and regulations for the Healthcare Program',
       category: 'Finance',
-      url: '/pdfs/financial-rules-wafid2.pdf',
-      description: 'Comprehensive financial rules for WAFID'
+      url: '/pdfs/financial-rules-Healthcare2.pdf',
+      description: 'Comprehensive financial rules for Healthcare'
     },
     {
       title: 'Accredited Centers Evaluation Form',
@@ -182,28 +182,28 @@ export const guidelines = [
       description: 'Vaccine handling and storage protocols'
     },
     {
-      title: 'Violations and Penalties related to Wafid Program',
+      title: 'Violations and Penalties related to Healthcare Program',
       category: 'Compliance',
-      url: '/pdfs/wafid-violations.pdf',
-      description: 'WAFID program violations and penalties'
+      url: '/pdfs/Healthcare-violations.pdf',
+      description: 'Healthcare program violations and penalties'
     },
     {
-      title: 'Violations and penalties related to the Wafid program',
+      title: 'Violations and penalties related to the Healthcare program',
       category: 'Compliance',
-      url: '/pdfs/wafid-penalties.pdf',
+      url: '/pdfs/Healthcare-penalties.pdf',
       description: 'Comprehensive penalty guidelines'
     },
     {
-      title: 'WAFID program Regulations of Expatriates Medical Examination',
+      title: 'Healthcare program Regulations of Expatriates Medical Examination',
       category: 'Regulations',
-      url: '/pdfs/wafid-regulations.pdf',
-      description: 'WAFID expatriate examination regulations'
+      url: '/pdfs/Healthcare-regulations.pdf',
+      description: 'Healthcare expatriate examination regulations'
     },
     {
-      title: 'Regulations for the Wafid Program',
+      title: 'Regulations for the Healthcare Program',
       category: 'Regulations',
-      url: '/pdfs/wafid-regulations2.pdf',
-      description: 'Complete WAFID program regulations'
+      url: '/pdfs/Healthcare-regulations2.pdf',
+      description: 'Complete Healthcare program regulations'
     }
   ];
 

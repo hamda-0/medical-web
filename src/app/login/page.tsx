@@ -51,7 +51,7 @@ const LoginPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50 flex items-center justify-center p-4">
+    <div className="min-h-screen flex items-center justify-center p-4">
       <div className="w-full max-w-6xl grid lg:grid-cols-2 gap-8 items-center">
 
         {/* Left Side - Branding */}
@@ -61,29 +61,29 @@ const LoginPage = () => {
               <Heart className="h-12 w-12" />
               <h1 className="text-4xl font-bold">{appName}</h1>
             </div>
-            <p className="text-xl text-gray-600 max-w-md mx-auto">
+            <p className="text-xl text-gray-600 max-w-md mx-auto dark:text-accent-foreground">
               Your trusted healthcare companion for better health management
             </p>
           </div>
 
           <div className="space-y-6">
-            <div className="flex items-center space-x-4 p-4 bg-white/60 backdrop-blur-sm rounded-xl shadow-sm">
+            <div className="flex items-center space-x-4 p-4 bg-white/60 dark:bg-accent backdrop-blur-sm rounded-xl shadow-sm">
               <div className="p-3 bg-blue-100 rounded-full">
                 <Shield className="h-6 w-6 text-blue-600" />
               </div>
               <div>
-                <h3 className="font-semibold text-gray-800">Secure & Private</h3>
-                <p className="text-sm text-gray-600">Your health data is protected with enterprise-grade security</p>
+                <h3 className="font-semibold text-gray-800  dark:text-accent-foreground">Secure & Private</h3>
+                <p className="text-sm text-gray-600  dark:text-accent-foreground">Your health data is protected with enterprise-grade security</p>
               </div>
             </div>
 
-            <div className="flex items-center space-x-4 p-4 bg-white/60 backdrop-blur-sm rounded-xl shadow-sm">
+            <div className="flex items-center space-x-4 p-4 bg-white/60 dark:bg-accent backdrop-blur-sm rounded-xl shadow-sm">
               <div className="p-3 bg-green-100 rounded-full">
                 <Users className="h-6 w-6 text-green-600" />
               </div>
               <div>
-                <h3 className="font-semibold text-gray-800">Expert Care Team</h3>
-                <p className="text-sm text-gray-600">Connect with qualified healthcare professionals</p>
+                <h3 className="font-semibold text-gray-800  dark:text-accent-foreground">Expert Care Team</h3>
+                <p className="text-sm text-gray-600  dark:text-accent-foreground">Connect with qualified healthcare professionals</p>
               </div>
             </div>
           </div>
@@ -91,14 +91,14 @@ const LoginPage = () => {
 
         {/* Right Side - Login Form */}
         <div className="w-full max-w-md mx-auto">
-          <Card className="shadow-2xl border-0 bg-white/95 backdrop-blur-sm">
+          <Card className="shadow-md   backdrop-blur-sm">
             <CardHeader className="text-center space-y-2">
               <div className="flex lg:hidden items-center justify-center space-x-2 text-blue-600 mb-4">
                 <Heart className="h-8 w-8" />
                 <h1 className="text-2xl font-bold">{appName}</h1>
               </div>
-              <CardTitle className="text-2xl font-bold text-gray-800">Welcome Back</CardTitle>
-              <CardDescription className="text-gray-600">
+              <CardTitle className="text-2xl font-bold text-gray-800 dark:text-accent-foreground">Welcome Back</CardTitle>
+              <CardDescription className="text-gray-600 dark:text-accent-foreground">
                 Sign in to access your healthcare dashboard
               </CardDescription>
             </CardHeader>
@@ -114,7 +114,7 @@ const LoginPage = () => {
                 )}
 
                 <div className="space-y-2">
-                  <Label htmlFor="email" className="text-sm font-medium text-gray-700">
+                  <Label htmlFor="email" className="text-sm font-medium text-gray-700 dark:text-accent-foreground">
                     Email Address
                   </Label>
                   <Input
@@ -130,7 +130,7 @@ const LoginPage = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="password" className="text-sm font-medium text-gray-700">
+                  <Label htmlFor="password" className="text-sm font-medium text-gray-700 dark:text-accent-foreground">
                     Password
                   </Label>
                   <div className="relative">

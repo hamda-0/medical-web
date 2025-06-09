@@ -1,7 +1,8 @@
-'use client'
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
-// import { usePathname } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -9,23 +10,16 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  //   navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
 import { cn } from '@/lib/utils';
 import { navigationLinks } from '@/constants/navigationLinks';
 
 const NavTabs = () => {
-  // const pathname = usePathname();
+  const pathname = usePathname();
 
-
-
-  // const isActiveLink = (href: string) => {
-  //   return pathname === href;
-  // };
-
-  //   const isActiveDropdown = (items: { href: string; label: string }[]) => {
-  //     return items.some(item => pathname === item.href);
-  //   };
+  const isActiveLink = (href: string) => {
+    return pathname === href;
+  };
 
   return (
     <NavigationMenu>
@@ -33,18 +27,24 @@ const NavTabs = () => {
         {navigationLinks.map((navItem, index) => (
           <NavigationMenuItem key={index}>
             {navItem.type === 'link' ? (
-              // <Link href={navItem.href!} passHref>
-              <NavigationMenuLink href={navItem.href!}
-                className={cn( "text-sm font-medium leading-none"
+              <NavigationMenuLink
+                className={cn(
+                  'font-medium text-sm',
+                  isActiveLink(navItem.href!) && 'text-primary'
                 )}
+                href={navItem.href!}
               >
                 {navItem.label}
               </NavigationMenuLink>
-              // </Link>
             ) : (
               <>
-                <NavigationMenuTrigger className={cn( "text-sm font-medium leading-none"
-                )}>
+                <NavigationMenuTrigger
+                  className={cn(
+                    'bg-transparent font-medium text-sm',
+                    isActiveLink(navItem.items!.find((item) => item.href === pathname)?.href!) &&
+                      'text-primary'
+                  )}
+                >
                   {navItem.label}
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
@@ -54,7 +54,8 @@ const NavTabs = () => {
                         key={item.href}
                         title={item.label}
                         href={item.href}
-                                             >
+                        className={isActiveLink(item.href) ? 'text-primary' : ''}
+                      >
                         {item.description}
                       </ListItem>
                     ))}
@@ -78,7 +79,10 @@ const ListItem = React.forwardRef<
       <Link
         ref={ref}
         href={href}
-        className={cn(className)}
+        className={cn(
+          'block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground',
+          className
+        )}
         {...props}
       >
         <div className="text-sm font-medium leading-none">{title}</div>
@@ -87,10 +91,9 @@ const ListItem = React.forwardRef<
         </p>
       </Link>
     </NavigationMenuLink>
-
   );
 });
 
-ListItem.displayName = "ListItem";
+ListItem.displayName = 'ListItem';
 
 export default NavTabs;

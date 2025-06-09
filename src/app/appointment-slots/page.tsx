@@ -7,6 +7,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Calendar, Clock, MapPin, Phone, Star, Users, CheckCircle2, XCircle, AlertCircle } from 'lucide-react';
 import { medicalCenters, appointmentSlots, examTypes } from '@/data/appointment.data';
 import { TimeSlot } from '@/types/appointment.types';
+import { showToast } from '@/lib/toast';
+import { Toaster } from 'sonner';
 
 const AppointmentSlots = () => {
   const [selectedCenter, setSelectedCenter] = useState<string>(medicalCenters[0].id);
@@ -26,8 +28,7 @@ const AppointmentSlots = () => {
 
   const handleBookAppointment = () => {
     if (selectedSlot && currentCenter && currentExamType) {
-      alert(`Appointment booked!\n\nCenter: ${currentCenter.name}\nExam: ${currentExamType.name}\nDate: ${selectedDay?.dayName}\nTime: ${selectedSlot.time}`);
-      // Here you would typically make an API call to book the appointment
+      showToast.success({title:`Appointment booked!`,description:`Center: ${currentCenter.name}\nExam: ${currentExamType.name}\nDate: ${selectedDay?.dayName}\nTime: ${selectedSlot.time}`});
     }
   };
 
@@ -52,6 +53,7 @@ const AppointmentSlots = () => {
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-7xl">
+      <Toaster/>
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-foreground mb-2">Available Slots</h1>
