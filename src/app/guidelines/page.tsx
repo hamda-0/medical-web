@@ -5,20 +5,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   FileText,
   Download,
-  Search,
-  Stethoscope,
-  Shield,
-  Users,
-  Award,
-  AlertTriangle,
-  CheckCircle,
-  DollarSign,
-  ClipboardCheck,
-  Package,
-  BookOpen,
-  Settings
+  Search
 } from 'lucide-react';
-import { guidelines } from '@/data/guidelines.data';
+import { categoryColors, categoryIcons, guidelines } from '@/data/guidelines.data';
 import PageHeader from '@/components/layout/PageHeader';
 import SearchAndFilter from './_components/SearchAndFilter';
 
@@ -27,38 +16,6 @@ const Guidelines = () => {
   const [activeCategory, setActiveCategory] = useState('All');
 
 
-
-  const categoryIcons = {
-    'Medical Documentation': Stethoscope,
-    'Customer Service': Users,
-    'Medical Procedures': ClipboardCheck,
-    'Accreditation': Award,
-    'Safety & Prevention': Shield,
-    'Quality Assurance': CheckCircle,
-    'Authorization': Settings,
-    'Clinical Practice': BookOpen,
-    'Finance': DollarSign,
-    'Evaluation': ClipboardCheck,
-    'Storage': Package,
-    'Compliance': AlertTriangle,
-    'Regulations': BookOpen
-  };
-
-  const categoryColors = {
-    'Medical Documentation': 'bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-900/20 dark:text-blue-300 dark:border-blue-700',
-    'Customer Service': 'bg-green-50 text-green-700 border-green-200 dark:bg-green-900/20 dark:text-green-300 dark:border-green-700',
-    'Medical Procedures': 'bg-purple-50 text-purple-700 border-purple-200 dark:bg-purple-900/20 dark:text-purple-300 dark:border-purple-700',
-    'Accreditation': 'bg-yellow-50 text-yellow-700 border-yellow-200 dark:bg-yellow-900/20 dark:text-yellow-300 dark:border-yellow-700',
-    'Safety & Prevention': 'bg-red-50 text-red-700 border-red-200 dark:bg-red-900/20 dark:text-red-300 dark:border-red-700',
-    'Quality Assurance': 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-900/20 dark:text-emerald-300 dark:border-emerald-700',
-    'Authorization': 'bg-gray-50 text-gray-700 border-gray-200 dark:bg-gray-800/50 dark:text-gray-300 dark:border-gray-600',
-    'Clinical Practice': 'bg-indigo-50 text-indigo-700 border-indigo-200 dark:bg-indigo-900/20 dark:text-indigo-300 dark:border-indigo-700',
-    'Finance': 'bg-orange-50 text-orange-700 border-orange-200 dark:bg-orange-900/20 dark:text-orange-300 dark:border-orange-700',
-    'Evaluation': 'bg-cyan-50 text-cyan-700 border-cyan-200 dark:bg-cyan-900/20 dark:text-cyan-300 dark:border-cyan-700',
-    'Storage': 'bg-pink-50 text-pink-700 border-pink-200 dark:bg-pink-900/20 dark:text-pink-300 dark:border-pink-700',
-    'Compliance': 'bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-900/20 dark:text-rose-300 dark:border-rose-700',
-    'Regulations': 'bg-violet-50 text-violet-700 border-violet-200 dark:bg-violet-900/20 dark:text-violet-300 dark:border-violet-700'
-  };
 
 
 

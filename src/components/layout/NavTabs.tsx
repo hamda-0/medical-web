@@ -41,8 +41,8 @@ const NavTabs = () => {
                 <NavigationMenuTrigger
                   className={cn(
                     'bg-transparent font-medium text-sm',
-                    isActiveLink(navItem.items!.find((item) => item.href === pathname)?.href!) &&
-                      'text-primary'
+                    // isActiveLink(navItem.items!.find((item) => item.href === pathname)?.href!) &&
+                    //   'text-primary'
                   )}
                 >
                   {navItem.label}

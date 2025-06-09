@@ -13,21 +13,45 @@ interface SearchAndFilterProps {
   guidelines: { title: string; category: string; url: string; description: string }[];
 }
 
-const SearchAndFilter: React.FC<SearchAndFilterProps> = ({ search, setSearch, activeCategory, setActiveCategory, guidelines }) => {
+type CategoryOption = {
+  type: 'category';
+  name: string;
+  count: number;
+};
+
+type GuidelineOption = {
+  type: 'guideline';
+  title: string;
+  category: string;
+};
+
+type FilterOption = CategoryOption | GuidelineOption;
+
+const SearchAndFilter: React.FC<SearchAndFilterProps> = ({ search, setSearch,  setActiveCategory, guidelines }) => {
   const [isOpen, setIsOpen] = useState(false);
   const categories = useMemo(() => ['All', ...new Set(guidelines.map(item => item.category))], [guidelines]);
 
-  const filteredOptions = useMemo(() => {
-    if (!search) return categories.map(cat => ({ type: 'category', name: cat, count: cat === 'All' ? guidelines.length : guidelines.filter(g => g.category === cat).length }));
-    const lowerSearch = search.toLowerCase();
-    const categoryMatches = categories
-      .filter(cat => cat.toLowerCase().includes(lowerSearch))
-      .map(cat => ({ type: 'category', name: cat, count: cat === 'All' ? guidelines.length : guidelines.filter(g => g.category === cat).length }));
-    const guidelineMatches = guidelines
-      .filter(item => item.title.toLowerCase().includes(lowerSearch) || item.description.toLowerCase().includes(lowerSearch))
-      .map(item => ({ type: 'guideline', title: item.title, category: item.category }));
-    return [...categoryMatches, ...guidelineMatches].slice(0, 5); // Limit to 5 suggestions
-  }, [search, guidelines]);
+  const filteredOptions: FilterOption[] = useMemo(() => {
+  if (!search) {
+    return categories.map(cat => ({
+      type: 'category',
+      name: cat,
+      count: cat === 'All'
+        ? guidelines.length
+        : guidelines.filter(g => g.category === cat).length
+    }));
+  }
+
+  const lowerSearch = search.toLowerCase();
+  return guidelines
+    .filter(g => g.title.toLowerCase().includes(lowerSearch))
+    .map(g => ({
+      type: 'guideline',
+      title: g.title,
+      category: g.category
+    }));
+}, [search, categories, guidelines]);
+
 
   useEffect(() => {
     setIsOpen(search.length > 0);

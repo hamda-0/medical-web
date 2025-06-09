@@ -12,6 +12,7 @@ import {
   Package,
   AlertTriangle,
 } from 'lucide-react';
+
 export const guidelines = [
     {
       title: 'Medical Report',

@@ -80,6 +80,15 @@ export interface Recommendation {
   dueDate?: string;
 }
 
+export interface MedicalExamResult {
+  id: string;
+  examinationType: string;
+  status: string;
+  date: string | Date;
+  healthScore: number;
+  riskLevel: string;
+}
+
 export interface MedicalExamination {
   id: string;
   patient: Patient;
