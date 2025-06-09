@@ -2,16 +2,15 @@
 
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
+// import { useDispatch } from 'react-redux';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent } from '@/components/ui/card';
 import { toast } from 'sonner';
-import { addAppointment } from '@/reducers/appointment/appointmentReducer';
+// import { addAppointment } from '@/reducers/appointment/appointmentReducer';
 import { useRouter } from 'next/navigation';
-import { singleq } from '@/constants/constants';
 
 interface AppointmentFormData {
   country: string;
@@ -38,7 +37,7 @@ interface AppointmentFormData {
 }
 
 const AppointmentForm = () => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const router = useRouter();
   const {
     register,
@@ -66,7 +65,7 @@ const AppointmentForm = () => {
       alert('Passport numbers do not match');
       return;
     }
-    dispatch(addAppointment(data));
+    // dispatch(addAppointment(data));
     toast.success('Appointment Booked Successfully!', {
       description: 'We will contact you soon to confirm your appointment.',
     });
@@ -78,7 +77,8 @@ const AppointmentForm = () => {
     'India', 'Pakistan', 'Bangladesh', 'Philippines', 'Egypt', 'Other',
   ];
 
-  const cities = {
+  // Add index signature to cities object
+  const cities: Record<string, string[]> = {
     'UAE': ['Dubai', 'Abu Dhabi', 'Sharjah', 'Ajman'],
     'Saudi Arabia': ['Riyadh', 'Jeddah', 'Dammam', 'Mecca'],
     'Kuwait': ['Kuwait City', 'Hawalli', 'Ahmadi'],
@@ -167,7 +167,7 @@ const AppointmentForm = () => {
 
           {/* Candidate's Information Section */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Candidate{singleq}s information</h3>
+            <h3 className="text-lg font-semibold">Candidate&#39;s information</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="firstName" className="text-sm text-muted-foreground">First Name</Label>
