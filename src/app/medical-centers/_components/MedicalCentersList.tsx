@@ -97,28 +97,28 @@ const MedicalCentersList: React.FC<MedicalCentersListProps> = () => {
     }
 
     for (let i = stars.length; i < 5; i++) {
-      stars.push(<span key={i} className="text-gray-300">★</span>);
+      stars.push(<span key={i} className="text-gray-500 dark:text-gray-600">★</span>);
     }
 
     return (
       <div className="flex items-center space-x-1">
         <div className="flex">{stars}</div>
-        <span className="text-sm text-gray-600 ml-2">{rating}</span>
+        <span className="text-sm text-gray-600 dark:text-gray-400 ml-2">{rating}</span>
       </div>
     );
   };
 
   return (
-    <div className="w-full bg-white rounded-xl shadow-sm overflow-hidden border border-gray-200">
+    <div className="w-full bg-white dark:bg-gray-900 rounded-xl shadow-sm overflow-hidden border border-gray-200 dark:border-gray-700">
       {/* Table Container */}
       <div className="relative">
         {/* Sticky Header */}
-        <div className="bg-blue-500 text-white sticky top-0 z-10">
+        <div className="bg-blue-500 dark:bg-blue-600 text-white sticky top-0 z-10">
           <div className="grid grid-cols-9 gap-4 px-6 py-4 text-sm font-semibold">
             {['name', 'country', 'city', 'addressLine1', 'phone', 'email', 'website', 'rating', 'workingHours'].map((key) => (
               <div
                 key={key}
-                className="cursor-pointer hover:bg-blue-700 rounded px-2 py-2 flex items-center justify-between transition-colors"
+                className="cursor-pointer hover:bg-blue-700 dark:hover:bg-blue-800 rounded px-2 py-2 flex items-center justify-between transition-colors"
                 onClick={() => requestSort(key as keyof MedicalCenter)}
               >
                 <span>
@@ -135,31 +135,48 @@ const MedicalCentersList: React.FC<MedicalCentersListProps> = () => {
         {/* Scrollable Body */}
         <div className="max-h-[calc(100vh-300px)] overflow-y-auto custom-scrollbar">
           {paginatedCenters.length === 0 ? (
-            <div className="text-center text-gray-500 p-4">No data available</div>
+            <div className="text-center text-gray-500 dark:text-gray-400 p-4">No data available</div>
           ) : (
             paginatedCenters.map((center, index) => (
               <div
                 key={center.id}
-                className={`grid grid-cols-9 gap-4 px-6 py-4 border-b border-gray-100 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 transition-all duration-300 ${index % 2 === 0 ? 'bg-gray-50/50' : 'bg-white'}`}
+                className={`grid grid-cols-9 gap-4 px-6 py-4 border-b border-gray-100 dark:border-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 dark:hover:from-blue-900/20 dark:hover:to-purple-900/20 transition-all duration-300 ${
+                  index % 2 === 0 
+                    ? 'bg-gray-50/50 dark:bg-gray-800/50' 
+                    : 'bg-white dark:bg-gray-900'
+                }`}
               >
-                <div className="font-semibold text-gray-800 hover:text-blue-700 transition-colors">{center.name}</div>
-                <div className="flex items-center space-x-2 text-gray-700">{getFlag(center.country)} {center.country}</div>
-                <div className="text-gray-700">{center.city}</div>
-                <div className="text-gray-600 text-sm">
-                  <div>{center.addressLine1}</div>
-                  {center.addressLine2 && <div className="text-gray-500">{center.addressLine2}</div>}
+                <div className="font-semibold text-gray-800 dark:text-gray-200 hover:text-blue-700 dark:hover:text-blue-400 transition-colors">
+                  {center.name}
                 </div>
-                <div className="text-gray-700 font-mono text-sm">{center.phone}</div>
-                <div className="text-blue-600 hover:text-blue-800 text-sm break-all">{center.email}</div>
+                <div className="flex items-center space-x-2 text-gray-700 dark:text-gray-300">
+                  {getFlag(center.country)} {center.country}
+                </div>
+                <div className="text-gray-700 dark:text-gray-300">{center.city}</div>
+                <div className="text-gray-600 dark:text-gray-400 text-sm">
+                  <div>{center.addressLine1}</div>
+                  {center.addressLine2 && <div className="text-gray-500 dark:text-gray-500">{center.addressLine2}</div>}
+                </div>
+                <div className="text-gray-700 dark:text-gray-300 font-mono text-sm">{center.phone}</div>
+                <div className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 text-sm break-all">
+                  {center.email}
+                </div>
                 <div className="text-sm">
                   {center.website ? (
-                    <a href={`https://${center.website}`} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 hover:underline transition-colors">
+                    <a 
+                      href={`https://${center.website}`} 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline transition-colors"
+                    >
                       {center.website}
                     </a>
-                  ) : <span className="text-gray-400">—</span>}
+                  ) : <span className="text-gray-400 dark:text-gray-500">—</span>}
                 </div>
                 <div>{renderStars(center.rating)}</div>
-                <div className="text-sm text-gray-600 font-medium">{center.workingHours || '—'}</div>
+                <div className="text-sm text-gray-600 dark:text-gray-400 font-medium">
+                  {center.workingHours || '—'}
+                </div>
               </div>
             ))
           )}
@@ -167,16 +184,16 @@ const MedicalCentersList: React.FC<MedicalCentersListProps> = () => {
       </div>
 
       {/* Fixed Pagination Footer */}
-      <div className="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-t border-gray-200">
+      <div className="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 px-6 py-4 border-t border-gray-200 dark:border-gray-700">
         <div className="flex items-center justify-between">
-          <div className="text-sm text-gray-600">
+          <div className="text-sm text-gray-600 dark:text-gray-400">
             Showing {((currentPage - 1) * itemsPerPage) + 1} to {Math.min(currentPage * itemsPerPage, sortedCenters.length)} of {sortedCenters.length} entries
           </div>
           <div className="flex items-center space-x-2">
             <button
               onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
               disabled={currentPage === 1}
-              className="p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              className="p-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-gray-700 dark:text-gray-300"
             >
               <ChevronLeft className="h-4 w-4" />
             </button>
@@ -184,10 +201,11 @@ const MedicalCentersList: React.FC<MedicalCentersListProps> = () => {
               <button
                 key={page}
                 onClick={() => setCurrentPage(page)}
-                className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${currentPage === page
-                  ? 'bg-blue-600 text-white shadow-sm'
-                  : 'border border-gray-300 bg-white hover:bg-gray-50 text-gray-700'
-                  }`}
+                className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  currentPage === page
+                    ? 'bg-blue-600 dark:bg-blue-700 text-white shadow-sm'
+                    : 'border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300'
+                }`}
               >
                 {page}
               </button>
@@ -195,7 +213,7 @@ const MedicalCentersList: React.FC<MedicalCentersListProps> = () => {
             <button
               onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
               disabled={currentPage === totalPages}
-              className="p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              className="p-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-gray-700 dark:text-gray-300"
             >
               <ChevronRight className="h-4 w-4" />
             </button>

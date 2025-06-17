@@ -1,51 +1,48 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button } from '@/components/ui/button';
-import { Menu, X, Sun, Moon, LogOut, ChevronDown } from 'lucide-react';
+import { Menu, X, Sun, Moon,  ChevronDown } from 'lucide-react';
 import { RootState } from '@/store/store';
-import { toggleTheme } from '@/reducers/theme/themeReducer';
+import { hydrateTheme, toggleTheme } from '@/reducers/theme/themeReducer';
 import Link from 'next/link';
-import { logout } from '@/reducers/auth/authReducer';
 import Logo from '../common/Logo';
 import { usePathname } from 'next/navigation';
 import NavTabs from './NavTabs';
 import { navigationLinks } from '@/constants/navigationLinks';
 import LoginButton from '../LoginButton';
-import RegisterButton from '../RegisterButton';
 
 const AppHeader = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [mobileActiveDropdown, setMobileActiveDropdown] = useState<string | null>(null);
-  const { isAuthenticated, user } = useSelector((state: RootState) => state.auth);
+  // const { isAuthenticated, user } = useSelector((state: RootState) => state.auth);
   const { isDarkMode } = useSelector((state: RootState) => state.theme);
   const dispatch = useDispatch();
   const pathname = usePathname();
 
-  const handleLogout = () => {
-    dispatch(logout());
-    setIsMobileMenuOpen(false);
-  };
+useEffect(() => {
+    const storedTheme = typeof window !== 'undefined' ? localStorage.getItem('isDarkMode') === 'true' : false;
+    dispatch(hydrateTheme(storedTheme));
+    document.documentElement.classList.toggle('dark', storedTheme);
+  }, [dispatch]);
+
+  // const handleLogout = () => {
+  //   // dispatch(logout());
+  //   setIsMobileMenuOpen(false);
+  // };
 
   const handleThemeToggle = () => {
     dispatch(toggleTheme());
-    document.documentElement.classList.toggle('dark');
+    document.documentElement.classList.toggle('dark', !isDarkMode);
   };
 
   const handleMobileDropdownToggle = (dropdownName: string) => {
     setMobileActiveDropdown(mobileActiveDropdown === dropdownName ? null : dropdownName);
   };
 
- 
-
-  const isActiveLink = (href: string) => {
-    return pathname === href;
-  };
-
-  const isActiveDropdown = (items: { href: string; label: string }[]) => {
-    return items.some(item => pathname === item.href);
-  };
-
+  const isActiveLink = (href: string) => pathname === href;
+  const isActiveDropdown = (items: { href: string; label: string }[]) =>
+    items.some((item) => pathname === item.href);
   return (
     <header className="bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50 w-full border-b border-border">
       <div className="container flex h-20 items-center justify-between px-4">
@@ -68,7 +65,7 @@ const AppHeader = () => {
             {isDarkMode ? <Sun className="size-4" /> : <Moon className="size-4" />}
           </Button>
 
-          {isAuthenticated ? (
+          {/* {isAuthenticated ? (
             <div className="flex items-center space-x-2">
               <span className="text-sm text-muted-foreground">
                 Welcome, {user?.firstName}
@@ -78,12 +75,11 @@ const AppHeader = () => {
                 Logout
               </Button>
             </div>
-          ) : (
+          ) : ( */}
             <div className="flex items-center space-x-2">
               <LoginButton/>
-              <RegisterButton/>
             </div>
-          )}
+          {/* // )} */}
         </div>
 
         {/* Mobile Menu Button */}
@@ -165,7 +161,7 @@ const AppHeader = () => {
                 {isDarkMode ? <Sun className="size-4" /> : <Moon className="size-4" />}
               </Button>
 
-              {isAuthenticated ? (
+              {/* {isAuthenticated ? (
                 <div className="flex items-center space-x-2">
                   <span className="text-sm text-muted-foreground">
                     Welcome, {user?.firstName}
@@ -174,12 +170,11 @@ const AppHeader = () => {
                     <LogOut className="size-4" />
                   </Button>
                 </div>
-              ) : (
+              ) : ( */}
                 <div className="flex items-center space-x-2">
                  <LoginButton/>
-                 <RegisterButton/>
                 </div>
-              )}
+              {/* )} */}
             </div>
           </div>
         </div>

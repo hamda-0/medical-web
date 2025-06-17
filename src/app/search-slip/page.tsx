@@ -100,12 +100,12 @@ const AppointmentSlips = () => {
             </div>
 
             {/* Search Button */}
-            <div className="pt-4 w-full">
+            <div className="pt-4 items-end justify-end flex w-full">
               <Button
                 size={'lg'}
                 disabled={isLoading}
                 onClick={handleSearch}
-                className={`w-full transition-all duration-300 transform hover:scale-105 focus:scale-95 flex items-center justify-center space-x-3`}
+                className={`space-x-3 w-full`}
               >
                 {isLoading ? (
                   <>
