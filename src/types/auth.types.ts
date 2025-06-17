@@ -18,7 +18,7 @@ export interface User {
   // Add other user properties as needed
 }
 
-export interface ApiResponse<T = any> {
+export interface ApiResponse<T = unknown> {
   data: T;
   message: string;
   success: boolean;
