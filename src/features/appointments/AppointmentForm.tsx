@@ -161,7 +161,7 @@ const AppointmentForm = () => {
     const formData = watch();
 
     // Check if required fields are filled
-    const requiredFields = ['firstName', 'dateOfBirth', 'nationality', 'gender', 'passportNumber', 'passportIssueDate', 'visaType', 'phoneNumber', 'nationalID'];
+    const requiredFields = ['firstName', 'dateOfBirth', 'nationality', 'passportNumber', 'passportIssueDate', 'visaType', 'phoneNumber', 'nationalID'];
     const missingFields = requiredFields.filter(field => !formData[field as keyof AppointmentFormData]);
 
     if (missingFields.length > 0) {
