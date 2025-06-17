@@ -1,43 +1,34 @@
-'use client';
+"use client";
 
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-// import { useDispatch } from 'react-redux';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent } from '@/components/ui/card';
-import { toast } from 'sonner';
-// import { addAppointment } from '@/reducers/appointment/appointmentReducer';
 import { useRouter } from 'next/navigation';
+import jsPDF from 'jspdf';
+import { showToast } from '@/lib/toast';
 
 interface AppointmentFormData {
   country: string;
   city: string;
   countryTravelingTo: string;
   firstName: string;
-  lastName: string;
   dateOfBirth: string;
   nationality: string;
-  gender: string;
-  maritalStatus: string;
+  payUrl: string;
   passportNumber: string;
-  confirmPassportNumber: string;
   passportIssueDate: string;
-  passportIssuePlace: string;
-  passportExpiryDate: string;
   visaType: string;
-  email: string;
   phoneNumber: string;
   nationalID: string;
-  positionAppliedFor: string;
-  other: string;
   confirmInfo: boolean;
+
 }
 
 const AppointmentForm = () => {
-  // const dispatch = useDispatch();
   const router = useRouter();
   const {
     register,
@@ -51,33 +42,17 @@ const AppointmentForm = () => {
       city: '',
       countryTravelingTo: '',
       nationality: '',
-      gender: '',
-      maritalStatus: '',
+      payUrl: '',
       visaType: '',
-      positionAppliedFor: '',
-      other: '',
       confirmInfo: false,
     },
   });
-
-  const onSubmit = async (data: AppointmentFormData) => {
-    if (data.passportNumber !== data.confirmPassportNumber) {
-      alert('Passport numbers do not match');
-      return;
-    }
-    // dispatch(addAppointment(data));
-    toast.success('Appointment Booked Successfully!', {
-      description: 'We will contact you soon to confirm your appointment.',
-    });
-    router.push('/');
-  };
 
   const countries = [
     'UAE', 'Saudi Arabia', 'Kuwait', 'Qatar', 'Bahrain', 'Oman',
     'India', 'Pakistan', 'Bangladesh', 'Philippines', 'Egypt', 'Other',
   ];
 
-  // Add index signature to cities object
   const cities: Record<string, string[]> = {
     'UAE': ['Dubai', 'Abu Dhabi', 'Sharjah', 'Ajman'],
     'Saudi Arabia': ['Riyadh', 'Jeddah', 'Dammam', 'Mecca'],
@@ -97,10 +72,122 @@ const AppointmentForm = () => {
     setValue('city', ''); // Reset city when country changes
   }, [selectedCountry, setValue]);
 
+  const generatePDF = (data: AppointmentFormData) => {
+    const doc = new jsPDF();
+
+    // Set up the document
+    doc.setFontSize(20);
+    doc.text('Visa Appointment Application', 20, 30);
+
+    // Add a line separator
+    doc.setLineWidth(0.5);
+    doc.line(20, 35, 190, 35);
+
+    // Location Information
+    doc.setFontSize(14);
+    doc.setFont('serif', 'bold');
+    doc.text('Location Information', 20, 50);
+
+    doc.setFont('serif', 'normal');
+    doc.setFontSize(12);
+    doc.text(`Country: ${data.country}`, 20, 60);
+    doc.text(`City: ${data.city}`, 20, 70);
+    doc.text(`Country Traveling To: ${data.countryTravelingTo}`, 20, 80);
+
+    // Personal Information
+    doc.setFont('serif', 'bold');
+    doc.setFontSize(14);
+    doc.text('Personal Information', 20, 100);
+
+    doc.setFont('serif', 'normal');
+    doc.setFontSize(12);
+    doc.text(`Full Name: ${data.firstName}`, 20, 110);
+    doc.text(`Date of Birth: ${data.dateOfBirth}`, 20, 120);
+    doc.text(`Nationality: ${data.nationality}`, 20, 130);
+    doc.text(`Payment Url: ${data.payUrl}`, 20, 140);
+
+    // Document Information
+    doc.setFont('serif', 'bold');
+    doc.setFontSize(14);
+    doc.text('Document Information', 20, 160);
+
+    doc.setFont('serif', 'normal');
+    doc.setFontSize(12);
+    doc.text(`Passport Number: ${data.passportNumber}`, 20, 170);
+    doc.text(`Passport Issue Date: ${data.passportIssueDate}`, 20, 180);
+    doc.text(`National ID: ${data.nationalID}`, 20, 190);
+
+    // Visa Information
+    doc.setFont('serif', 'bold');
+    doc.setFontSize(14);
+    doc.text('Visa Information', 20, 210);
+
+    doc.setFont('serif', 'normal');
+    doc.setFontSize(12);
+    doc.text(`Visa Type: ${data.visaType}`, 20, 220);
+    doc.text(`Phone Number: ${data.phoneNumber}`, 20, 230);
+
+    // Footer
+    doc.setFontSize(10);
+    doc.text('Generated on: ' + new Date().toLocaleDateString(), 20, 270);
+    doc.text('I confirm that the information given in this form is true, complete, and accurate', 20, 280);
+
+    // Save the PDF
+    const fileName = `visa_application_${data.firstName}_${new Date().toISOString().split('T')[0]}.pdf`;
+    doc.save(fileName);
+  };
+
+  const onSubmit = (data: AppointmentFormData) => {
+    try {
+      // Generate PDF
+      generatePDF(data);
+
+      // You can also save the data to your backend here
+      console.log('Form data:', data);
+
+      // Show success message or redirect
+      alert('PDF generated successfully! Your application has been saved.');
+
+      // Optionally navigate to next page
+      // router.push('/confirmation');
+
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+      alert('There was an error generating the PDF. Please try again.');
+    }
+  };
+
+  const downloadPDF = () => {
+    const formData = watch();
+
+    // Check if required fields are filled
+    const requiredFields = ['firstName', 'dateOfBirth', 'nationality', 'gender', 'passportNumber', 'passportIssueDate', 'visaType', 'phoneNumber', 'nationalID'];
+    const missingFields = requiredFields.filter(field => !formData[field as keyof AppointmentFormData]);
+
+    if (missingFields.length > 0) {
+      showToast.error({
+        title: 'Error',
+        description: `Please fill in the following fields: ${missingFields.join(', ')}`
+      });
+      
+      return;
+    }
+
+    if (!formData.confirmInfo) {
+      showToast.error({
+        title: 'Error',
+        description: 'Please confirm that the information given is true, complete, and accurate'
+      });
+      return;
+    }
+
+    generatePDF(formData);
+  };
+
   return (
     <Card className="w-full max-w-4xl mx-auto shadow-sm border">
       <CardContent className="p-6 space-y-8">
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        <form onSubmit={handleSubmit(onSubmit)}>
           {/* Location Section */}
           <div className="space-y-4">
             <h3 className="text-lg font-semibold">Location</h3>
@@ -167,7 +254,7 @@ const AppointmentForm = () => {
 
           {/* Candidate's Information Section */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Candidate&#39;s information</h3>
+            <h3 className="text-lg font-semibold">Candidate&#39;s Information</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="firstName" className="text-sm text-muted-foreground">First Name</Label>
@@ -181,17 +268,6 @@ const AppointmentForm = () => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="lastName" className="text-sm text-muted-foreground">Last Name</Label>
-                <Input
-                  id="lastName"
-                  placeholder="Last name"
-                  {...register('lastName', { required: 'Last name is required' })}
-                  className="w-full"
-                />
-                {errors.lastName && <p className="text-sm text-destructive">{errors.lastName.message}</p>}
-              </div>
-
-              <div className="space-y-2">
                 <Label htmlFor="dateOfBirth" className="text-sm text-muted-foreground">Date of Birth</Label>
                 <Input
                   id="dateOfBirth"
@@ -201,9 +277,7 @@ const AppointmentForm = () => {
                 />
                 {errors.dateOfBirth && <p className="text-sm text-destructive">{errors.dateOfBirth.message}</p>}
               </div>
-            </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="nationality" className="text-sm text-muted-foreground">Nationality</Label>
                 <Select
@@ -223,48 +297,12 @@ const AppointmentForm = () => {
                 </Select>
                 {errors.nationality && <p className="text-sm text-destructive">{errors.nationality.message}</p>}
               </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="gender" className="text-sm text-muted-foreground">Gender</Label>
-                <Select
-                  onValueChange={(value) => setValue('gender', value)}
-                  value={watch('gender')}
-                >
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Gender" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Male">Male</SelectItem>
-                    <SelectItem value="Female">Female</SelectItem>
-                    <SelectItem value="Other">Other</SelectItem>
-                  </SelectContent>
-                </Select>
-                {errors.gender && <p className="text-sm text-destructive">{errors.gender.message}</p>}
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="maritalStatus" className="text-sm text-muted-foreground">Marital Status</Label>
-                <Select
-                  onValueChange={(value) => setValue('maritalStatus', value)}
-                  value={watch('maritalStatus')}
-                >
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Marital status" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Single">Single</SelectItem>
-                    <SelectItem value="Married">Married</SelectItem>
-                    <SelectItem value="Divorced">Divorced</SelectItem>
-                    <SelectItem value="Widowed">Widowed</SelectItem>
-                  </SelectContent>
-                </Select>
-                {errors.maritalStatus && <p className="text-sm text-destructive">{errors.maritalStatus.message}</p>}
-              </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+
               <div className="space-y-2">
-                <Label htmlFor="passportNumber" className="text-sm text-muted-foreground">Passport number No</Label>
+                <Label htmlFor="passportNumber" className="text-sm text-muted-foreground">Passport Number</Label>
                 <Input
                   id="passportNumber"
                   placeholder="Passport number"
@@ -272,17 +310,6 @@ const AppointmentForm = () => {
                   className="w-full"
                 />
                 {errors.passportNumber && <p className="text-sm text-destructive">{errors.passportNumber.message}</p>}
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="confirmPassportNumber" className="text-sm text-muted-foreground">Confirm Passport No</Label>
-                <Input
-                  id="confirmPassportNumber"
-                  placeholder="Confirm passport number"
-                  {...register('confirmPassportNumber', { required: 'Confirm passport number is required' })}
-                  className="w-full"
-                />
-                {errors.confirmPassportNumber && <p className="text-sm text-destructive">{errors.confirmPassportNumber.message}</p>}
               </div>
 
               <div className="space-y-2">
@@ -295,31 +322,21 @@ const AppointmentForm = () => {
                 />
                 {errors.passportIssueDate && <p className="text-sm text-destructive">{errors.passportIssueDate.message}</p>}
               </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="payUrl" className="text-sm text-muted-foreground">Payment Url</Label>
+                <Input
+                  id="payUrl" type='url'
+                  placeholder="Passport number"
+                  {...register('payUrl', { required: 'Passport number is required' })}
+                  className="w-full"
+                />
+                {errors.payUrl && <p className="text-sm text-destructive">{errors.payUrl.message}</p>}
+              </div>
+             
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="passportIssuePlace" className="text-sm text-muted-foreground">Passport Issue Place</Label>
-                <Input
-                  id="passportIssuePlace"
-                  placeholder="Passport issue place"
-                  {...register('passportIssuePlace', { required: 'Passport issue place is required' })}
-                  className="w-full"
-                />
-                {errors.passportIssuePlace && <p className="text-sm text-destructive">{errors.passportIssuePlace.message}</p>}
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="passportExpiryDate" className="text-sm text-muted-foreground">Passport Expiry Date</Label>
-                <Input
-                  id="passportExpiryDate"
-                  type="date"
-                  {...register('passportExpiryDate', { required: 'Passport expiry date is required' })}
-                  className="w-full"
-                />
-                {errors.passportExpiryDate && <p className="text-sm text-destructive">{errors.passportExpiryDate.message}</p>}
-              </div>
-
               <div className="space-y-2">
                 <Label htmlFor="visaType" className="text-sm text-muted-foreground">Visa Type</Label>
                 <Select
@@ -338,29 +355,9 @@ const AppointmentForm = () => {
                 </Select>
                 {errors.visaType && <p className="text-sm text-destructive">{errors.visaType.message}</p>}
               </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="email" className="text-sm text-muted-foreground">Email ID</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="your@email.com"
-                  {...register('email', {
-                    required: 'Email is required',
-                    pattern: {
-                      value: /^\S+@\S+$/i,
-                      message: 'Invalid email address',
-                    },
-                  })}
-                  className="w-full"
-                />
-                {errors.email && <p className="text-sm text-destructive">{errors.email.message}</p>}
-              </div>
 
               <div className="space-y-2">
-                <Label htmlFor="phoneNumber" className="text-sm text-muted-foreground">Phone No</Label>
+                <Label htmlFor="phoneNumber" className="text-sm text-muted-foreground">Phone Number</Label>
                 <Input
                   id="phoneNumber"
                   placeholder="Phone number"
@@ -388,30 +385,6 @@ const AppointmentForm = () => {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="positionAppliedFor" className="text-sm text-muted-foreground">Position applied for</Label>
-                <Input
-                  id="positionAppliedFor"
-                  placeholder="Position applied for"
-                  {...register('positionAppliedFor')}
-                  className="w-full"
-                />
-                {errors.positionAppliedFor && <p className="text-sm text-destructive">{errors.positionAppliedFor.message}</p>}
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="other" className="text-sm text-muted-foreground">Other</Label>
-                <Input
-                  id="other"
-                  placeholder="Other"
-                  {...register('other')}
-                  className="w-full"
-                />
-                {errors.other && <p className="text-sm text-destructive">{errors.other.message}</p>}
-              </div>
-            </div>
-
             <div className="flex items-center space-x-2">
               <input
                 type="checkbox"
@@ -419,18 +392,21 @@ const AppointmentForm = () => {
                 className="h-4 w-4 text-primary"
               />
               <Label className="text-sm text-muted-foreground">
-                I confirm that the information given in this form is true, complete and accurate
+                I confirm that the information given in this form is true, complete, and accurate
               </Label>
               {errors.confirmInfo && <p className="text-sm text-destructive">{errors.confirmInfo.message}</p>}
             </div>
           </div>
 
-          <div className="flex gap-4 pt-6">
-            <Button type="button" variant="outline" className="flex-1" onClick={() => router.push('/')}>
+          <div className="flex items-end justify-end gap-4 pt-6">
+            <Button type="button" variant="outline" onClick={() => router.push('/')}>
               Cancel
             </Button>
-            <Button type="submit" className="flex-1">
-              Save And Continue
+            <Button type="button" variant="secondary" onClick={downloadPDF}>
+              Download PDF
+            </Button>
+            <Button type="submit">
+              Save and Continue
             </Button>
           </div>
         </form>

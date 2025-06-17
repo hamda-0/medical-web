@@ -3,12 +3,12 @@ import { Badge } from '@/components/ui/badge';
 import { Card,  CardContent,  CardHeader, CardTitle } from '@/components/ui/card';
 import { MedicalExamination } from '@/types/medicalExamination.types';
 import { Progress } from '@radix-ui/react-progress';
-import { Activity, Heart } from 'lucide-react';
+import { Activity, Stethoscope } from 'lucide-react';
 
 const HealthSummary = ({ exam }: { exam: MedicalExamination }) => (
   <div className="grid md:grid-cols-2 gap-6">
     <Card>
-      <CardHeader><CardTitle className="flex items-center gap-2"><Heart className="h-5 w-5 text-red-500" />Health Score</CardTitle></CardHeader>
+      <CardHeader><CardTitle className="flex items-center gap-2"><Stethoscope className="h-5 w-5 text-red-500" />Health Score</CardTitle></CardHeader>
       <CardContent className="text-center space-y-4">
         <div className="text-4xl font-bold text-green-600">{exam.overallAssessment.healthScore}%</div>
         <Progress value={exam.overallAssessment.healthScore} />

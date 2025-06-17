@@ -2,20 +2,25 @@
 
 import React, { useState } from 'react'
 import Link from 'next/link'
-import { Eye, EyeOff, Heart, Shield, Users } from 'lucide-react'
+import { Eye, EyeOff, Shield, Stethoscope, Users } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { Checkbox } from '@/components/ui/checkbox'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { appName } from '@/constants/constants'
+// import { showToast } from '@/lib/toast'
+import { Toaster } from '@/components/ui/sonner'
+// import { LoginRequest } from '@/types/auth.types'
+// import { authService } from '@/lib/api/client'
+// import { useRouter } from 'next/navigation'
 
 const LoginPage = () => {
+  // const router=useRouter()
   const [showPassword, setShowPassword] = useState(false)
   const [formData, setFormData] = useState({
-    email: '',
     password: '',
+    username: '',
     rememberMe: false
   })
   const [isLoading, setIsLoading] = useState(false)
@@ -34,31 +39,42 @@ const LoginPage = () => {
     setIsLoading(true)
     setError('')
 
-    try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000))
+    // try {
+    //   // Simulate API call
+    //   const credentials: LoginRequest = {
+    //     username: formData.username,
+    //     password: formData.password
+    //   }
+    //   const response = await authService.login(credentials);
+    //   console.log(response.data, 'login')
+    //   showToast.success({
+    //     title: 'Login Success',
+    //     description: response.message,
+    //   });
+    //   router.push('/')
+    // } catch (err) {
 
-      // Add your authentication logic here
-      console.log('Login attempt:', formData)
-
-      // Redirect to dashboard or handle success
-    } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Invalid Credentials. Please try again.';
-      setError(errorMessage);
-    } finally {
-      setIsLoading(false)
-    }
+    //   const errorMessage = err instanceof Error ? err.message : 'Invalid Credentials. Please try again.';
+    //   setError(errorMessage);
+    //   showToast.error({
+    //     title: 'Error Login',
+    //     description: errorMessage
+    //   })
+    // } finally {
+    //   setIsLoading(false)
+    // }
   }
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
+      <Toaster />
       <div className="w-full max-w-6xl grid lg:grid-cols-2 gap-8 items-center">
 
         {/* Left Side - Branding */}
         <div className="hidden lg:flex flex-col justify-center space-y-8 px-8">
           <div className="text-center space-y-4">
             <div className="flex items-center justify-center space-x-2 text-blue-600">
-              <Heart className="h-12 w-12" />
+              <Stethoscope className="h-12 w-12" />
               <h1 className="text-4xl font-bold">{appName}</h1>
             </div>
             <p className="text-xl text-gray-600 max-w-md mx-auto dark:text-accent-foreground">
@@ -94,7 +110,7 @@ const LoginPage = () => {
           <Card className="shadow-md   backdrop-blur-sm">
             <CardHeader className="text-center space-y-2">
               <div className="flex lg:hidden items-center justify-center space-x-2 text-blue-600 mb-4">
-                <Heart className="h-8 w-8" />
+                <Stethoscope className="h-8 w-8" />
                 <h1 className="text-2xl font-bold">{appName}</h1>
               </div>
               <CardTitle className="text-2xl font-bold text-gray-800 dark:text-accent-foreground">Welcome Back</CardTitle>
@@ -114,15 +130,15 @@ const LoginPage = () => {
                 )}
 
                 <div className="space-y-2">
-                  <Label htmlFor="email" className="text-sm font-medium text-gray-700 dark:text-accent-foreground">
-                    Email Address
+                  <Label htmlFor="username" className="text-sm font-medium text-gray-700 dark:text-accent-foreground">
+                    User Name
                   </Label>
                   <Input
-                    id="email"
-                    name="email"
-                    type="email"
-                    placeholder="doctor@example.com"
-                    value={formData.email}
+                    id="username"
+                    name="username"
+                    type="name"
+                    placeholder="Jhon Doe"
+                    value={formData.username}
                     onChange={handleInputChange}
                     required
                     className="h-11 border-gray-200 focus:border-blue-500 focus:ring-blue-500"
@@ -154,8 +170,8 @@ const LoginPage = () => {
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-2">
+                <div className="flex items-center justify-end mb-4">
+                  {/* <div className="flex items-center space-x-2">
                     <Checkbox
                       id="rememberMe"
                       checked={formData.rememberMe}
@@ -166,7 +182,7 @@ const LoginPage = () => {
                     <Label htmlFor="rememberMe" className="text-sm text-gray-600">
                       Remember me
                     </Label>
-                  </div>
+                  </div> */}
                   <Link
                     href="/forgot-password"
                     className="text-sm text-blue-600 hover:text-blue-700 hover:underline"
@@ -184,16 +200,6 @@ const LoginPage = () => {
                 >
                   {isLoading ? 'Signing in...' : 'Sign In'}
                 </Button>
-
-                <div className="text-center text-sm text-gray-600">
-                  Don&#34;t have an account?{' '}
-                  <Link
-                    href="/signup"
-                    className="text-blue-600 hover:text-blue-700 font-medium hover:underline"
-                  >
-                    Create Account
-                  </Link>
-                </div>
               </CardFooter>
             </form>
           </Card>
